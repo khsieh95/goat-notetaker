@@ -30,6 +30,7 @@ app.get("/api/notes", (req, res) => {
       console.log(err);
     } else {
       const parseData = JSON.parse(data);
+      console.log(parseData);
       res.send(parseData);
     }
   });
@@ -57,6 +58,8 @@ app.post("/api/notes", (req, res) => {
     }
   });
 });
+
+app.delete("/api/notes/:id", (req, res) => {});
 // listen function
 app.listen(PORT, function () {
   console.log("http://localhost:" + PORT);
