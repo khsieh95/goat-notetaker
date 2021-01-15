@@ -63,7 +63,38 @@ app.post("/api/notes", (req, res) => {
   });
 });
 
-app.delete("/api/notes/:id", (req, res) => {});
+app.delete("/api/notes/:id", (req, res) => {
+  const parameterId = req.params.id;
+  fs.readFile(path.join(__dirname, "db/db.json"), "utf8", (err, data) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("no error");
+    }
+    const newData = JSON.parse(data);
+    for (let i = 0; i < newData.length; i++) {
+      if (newData[i].id === parameterId) {
+        console.log(newData[i]);
+        newData.splice(i, 1);
+
+        const finalData = JSON.stringify(newData);
+        fs.writeFile(
+          path.join(__dirname, "db/db.json"),
+          finalData,
+          (err, data) => {
+            if (err === true) {
+              console.log(err);
+            } else {
+              console.log("no error");
+              res.send("done");
+            }
+          }
+        );
+      }
+    }
+  });
+});
+
 // listen function
 app.listen(PORT, function () {
   console.log("http://localhost:" + PORT);
