@@ -2,6 +2,8 @@ const express = require("express");
 const path = require("path");
 const fs = require("fs");
 const { PassThrough } = require("stream");
+const { v4: uuidv4 } = require("uuid");
+uuidv4(); // ⇨ '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
 
 // express function and port
 const app = express();
@@ -38,6 +40,8 @@ app.get("/api/notes", (req, res) => {
 
 app.post("/api/notes", (req, res) => {
   const note = req.body;
+  note.id = uuidv4();
+  console.log(note);
   fs.readFile(path.join(__dirname, "db/db.json"), "utf8", (err, data) => {
     if (err === true) {
       console.log(err);
