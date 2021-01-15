@@ -42,9 +42,11 @@ app.post("/api/notes", (req, res) => {
       console.log(err);
     } else {
       console.log("hi");
+
       const objectData = JSON.parse(data);
       const allNotes = [...objectData, note];
       const userData = JSON.stringify(allNotes);
+      res.send(userData);
       fs.writeFile(path.join(__dirname, "db/db.json"), userData, (err, res) => {
         if (err === true) {
           console.log(err);
