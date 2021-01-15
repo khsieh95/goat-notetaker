@@ -1,7 +1,6 @@
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
-const { PassThrough } = require("stream");
 const { v4: uuidv4 } = require("uuid");
 uuidv4(); // ⇨ '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
 
@@ -13,9 +12,6 @@ var PORT = process.env.PORT || 3000;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
-
-// note data (DATA)
-const savedNotes = [];
 
 // HTML ROUTES
 app.get("/", function (req, res) {
