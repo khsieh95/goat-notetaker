@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
+const { PassThrough } = require("stream");
 
 // express function and port
 const app = express();
@@ -34,8 +35,25 @@ app.get("/api/notes", (req, res) => {
   });
 });
 
-app.post("api/notes", (req, res) => {
+app.post("/api/notes", (req, res) => {
   const note = req.body;
+  fs.readFile(path.join(__dirname, "db/db.json"), "utf8", (err, data) => {
+    if (err === true) {
+      console.log(err);
+    } else {
+      console.log("hi");
+      const objectData = JSON.parse(data);
+      const allNotes = [...objectData, note];
+      const userData = JSON.stringify(allNotes);
+      fs.writeFile(path.join(__dirname, "db/db.json"), userData, (err, res) => {
+        if (err === true) {
+          console.log(err);
+        } else {
+          console.log("writing");
+        }
+      });
+    }
+  });
 });
 // listen function
 app.listen(PORT, function () {
