@@ -24,7 +24,18 @@ app.get("/notes", function (req, res) {
 
 // API ROUTES
 app.get("/api/notes", (req, res) => {
-  fs.readFile(path.join(__dirname, ""));
+  fs.readFile(path.join(__dirname, "db/db.json"), "utf8", (err, data) => {
+    if (err === true) {
+      console.log(err);
+    } else {
+      const parseData = JSON.parse(data);
+      res.send(parseData);
+    }
+  });
+});
+
+app.post("api/notes", (req, res) => {
+  const note = req.body;
 });
 // listen function
 app.listen(PORT, function () {
